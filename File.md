@@ -116,8 +116,60 @@
     - We need to accept the editLink as props
               <Link :href="editLink">
     - Go to index.vue file into Actions component and pass the show delete props
-        
-                            
+
+## ROLES CREATE AND EDIIT  - ROLES CRUD
+    - Object is to create / edit the roles with vue
+    - Start the to create a Role 
+        . Add Create Button on Index.vuee file 
+        . Adjust the resources/js/Components/SecondaryButton.vue
+        .Pass into SecondaryButtton into index.vue file
+    - Open RoleController
+        . Add the create() method
+        . create a Admin/Create.vue file
+    - Open the Create.vue file 
+        .copy the code from login.vue file and page one input
+        .write the logic inside the Create.vue file.
+        .write the RolesRequest   to validate our data
+                php artisan make:request Admin/RolesRequest
+        .add the logic inside the RolesRequest
+    - Call the RolesRequest inside the STORE method of RoleController, add the logic .
+    - READ THE INERTIA DOC ABOUT SUBMITTING THE FORM
+    - Add the flush the message 
+        https://inertiajs.com/shared-data
+        . open the HandleInertiaRequests
+        . create a component called Alert.vue 
+                resources/js/Components/Alert/Alert.vue
+        . Add the component Alert.vue  into Authenticated.Layout 
+
+    NB: NOT WORKING
+
+    - Let us work on Edit functionality
+    - Open the index page 
+            <Td> <Actions :show-delete="false"/> </Td>
+
+            TO 
+            <Td> <Actions :edit-link="route('roles.edit',{ id: item.id})" /> </Td>
+    - open the RoleController  , edit()  method
+    - Open the Create.vue file  and defineProps
+            . assign the const to defineProps
+            . add data wraping
+                https://laravel.com/docs/10.x/eloquent-resources#data-wrapping
+                JsonResource::withoutWrapping();
+            . pass the title from the rolecontroller in create() and edit()
+                    'title' => 'Edit Role',  
+                    'title' => 'Create Role'
+            . accept as props in Create.vue file
+            . pass the {{ title }} in the blade
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">Add Role</h2>
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">Add Role</h2>
+
+            . pass on the Head
+                title="Add Role" />
+                :title="title" />
+            . In the RoleRequest login we need to update
+                    'name' => ['required' , 'string', 'max:255', Rule::unique("roles")]
+                    'name' => ['required' , 'string', 'max:255', Rule::unique("roles")->ignoreModel($this->route('role'))]
+    
 
 
 

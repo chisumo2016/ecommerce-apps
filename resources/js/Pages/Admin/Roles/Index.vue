@@ -8,7 +8,8 @@
         </template>
 
         <Container>
-            <Card>
+            <PrimaryButton :href="route('roles.create')">Add New </PrimaryButton>
+            <Card class="mt-4">
                 <Table :headers="headers"
                        :items="roles">
                     <template v-slot="{ item }">
@@ -19,7 +20,7 @@
                             {{ item.created_at_formatted }}
                         </Td>
                         <Td>
-                            <Actions :show-delete="false"/>
+                            <Actions :edit-link="route('roles.edit',{ id: item.id})" />
                         </Td>
                     </template>
 <!--                    <tr-->
@@ -42,6 +43,9 @@ import Card from "@/Components/Card/Card.vue";
 import Table from "@/Components/Table/Table.vue";
 import Td from "@/Components/Table/Td.vue";
 import Actions from "@/Components/Table/Actions.vue";
+
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+
 
 defineProps({
     roles: {
