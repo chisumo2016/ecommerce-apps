@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RoleResource;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -14,7 +16,32 @@ class RoleController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('Admin/Roles/Index');
+        $roles = Role::select([
+            'id',
+            'name',
+            'created_at'
+        ])->latest()->paginate(10);
+
+        //dd($roles);
+
+        return Inertia::render('Admin/Roles/Index',[
+            'roles' => RoleResource::collection($roles),
+
+            'headers' => [
+                [
+                    'label' => 'Name' ,
+                    'name'  => 'name'
+                ],
+                [
+                    'label' => 'Created At' ,
+                    'name'  => 'created_at'
+                ],
+                [
+                    'label' => 'Actions' ,
+                    'name'  => 'actions'
+                ],
+            ]
+        ]);
     }
 
     /**
