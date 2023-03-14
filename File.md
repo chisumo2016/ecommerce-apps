@@ -170,7 +170,22 @@
                     'name' => ['required' , 'string', 'max:255', Rule::unique("roles")]
                     'name' => ['required' , 'string', 'max:255', Rule::unique("roles")->ignoreModel($this->route('role'))]
     
-
+## DELETE ROLE - ROLES CRUD
+    - objective is to delete the roles , when u click on delete button will show the popup
+    - Gonna use  https://tailwind-elements.com/docs/standard/components/modal/
+            https://tailwindui.com/components/application-ui/overlays/notifications
+            https://tailwindcomponents.com/component/notification-3
+    - Copy the code and paste on Modal/Modal.vue component
+        . Run npm install tw-elements
+        .add Tailwind.config.js
+            "./node_modules/tw-elements/dist/js/**/*.js"
+        .import it in the following way  
+            import * as te from 'tw-elements';
+    - pass the emit into action 
+        @click="$emit('deleteClicked',$event)
+    - Att index.vue in Actions component 
+            @deleteClicker="showDeleteModal"
+    - define the method  showDeleteModal
 
 
 

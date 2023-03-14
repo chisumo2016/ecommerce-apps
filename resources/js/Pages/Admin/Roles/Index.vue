@@ -20,7 +20,9 @@
                             {{ item.created_at_formatted }}
                         </Td>
                         <Td>
-                            <Actions :edit-link="route('roles.edit',{ id: item.id})" />
+                            <Actions :edit-link="route('roles.edit',{ id: item.id})"
+                                @deleteClicked="showDeleteModal(item)"
+                            />
                         </Td>
                     </template>
 <!--                    <tr-->
@@ -33,6 +35,18 @@
         </Container>
 
     </AuthenticatedLayout>
+
+    <!--Modal -->
+    <Modal v-model="deleteModal" size="sm" :title="`Delete ${itemToDelete.name}`">
+        Are you sure you want to delete this item ?
+        <template #footer>
+            <PrimaryButton
+                @click="handleDeleteItem" :disabled="isDeleting">
+                <span v-if="isDeleting">Deleting</span>
+                <span v-else>Delete</span>
+            </PrimaryButton>
+        </template>
+    </Modal>
 </template>
 
 <script setup>
@@ -45,6 +59,9 @@ import Td from "@/Components/Table/Td.vue";
 import Actions from "@/Components/Table/Actions.vue";
 
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import {ref} from "vue";
+import Modal from "@/Components/Modal/Modal.vue";
+import { Inertia } from '@inertiajs/inertia'
 
 
 defineProps({
@@ -63,4 +80,29 @@ defineProps({
         default: () => ({}),
     },
 })
+
+const deleteModal = ref(false);
+const itemToDelete = ref({});
+const isDeleting = ref(false)
+
+
+function  showDeleteModal(item){
+    deleteModal.value = true;
+    itemToDelete.value = item
+}
+
+function  handleDeleteItem(){
+    Inertia.delete(route("roles.destroy",{ id: itemToDelete.value.id }),{
+        onBefore: () => {
+            isDeleting.value = true;
+        },
+        onSuccess:()=>{
+            deleteModal.value = false;
+            itemToDelete.value = {};
+        },
+        onFinish: () =>{
+            isDeleting.value = false;
+        }
+    })
+}
 </script>

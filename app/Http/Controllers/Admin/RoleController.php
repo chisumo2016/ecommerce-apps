@@ -64,7 +64,7 @@ class RoleController extends Controller
 
         Role::create($request->validated());
 
-        return redirect()->route('roles.index')->with('success','Role created successfully');
+        return redirect()->route('roles.index')->with('message','Role created successfully');
     }
 
     /**
@@ -94,7 +94,7 @@ class RoleController extends Controller
     {
         $role->update($request->validated());
 
-        return redirect()->route('roles.index')->with('success','Role updated successfully');
+        return redirect()->route('roles.index')->with('message','Role updated successfully');
 
 
     }
@@ -102,8 +102,10 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Role $role)
     {
-        //
+        $role->delete();
+
+        return back()->with('message','Role deleted successfully');
     }
 }
