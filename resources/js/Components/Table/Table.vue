@@ -19,6 +19,11 @@
                             <slot :item="item"></slot>
                         </tr>
 
+                        <tr v-if="items.data.length === 0">
+                            <Td :colspan="headers.length">
+                                No  Data Available
+                            </Td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -28,6 +33,7 @@
 
 <script setup>
 import Th from "@/Components/Table/Th.vue";
+import Td from "@/Components/Table/Td.vue";
 
 
 defineProps({

@@ -188,6 +188,20 @@
     - define the method  showDeleteModal
 
 
+## ROLES FILTERS
+    - apply filter
+    - Open index.vue page and add the filter card 
+    - Add card component in index 
+    - Open tthe Card  add the div and pass the slot
+            <div v-if="$slots.header" class="px-6 py-2 font-bold">
+            <slot name="header"></slot>
+        </div>
+    - Add the form inside the card componentt in index.vue
+    - define the filters 
+    -  define the watch whenever wee type anytthing
+    - Define filter in the backend
+
+
 
 
 
