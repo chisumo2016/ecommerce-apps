@@ -26,7 +26,7 @@
             </Card>
             <PrimaryButton :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
 
-            <Card class="mt-4">
+            <Card class="mt-4" :is-loading="isLoading">
                 <Table :headers="headers"
                        :items="items">
                     <template v-slot="{ item }">
@@ -126,7 +126,7 @@ const  {
 });
 
 /**Filters module**/
-const { filters } = useFilters({
+const { filters , isLoading} = useFilters({
     filters : props.filters,
     routeResourceName : props.routeResourceName
     //routeResourceName : "roles"

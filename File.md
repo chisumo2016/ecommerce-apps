@@ -299,8 +299,22 @@
                  <PrimaryButton :href="route(`${routeResourceName.create}`)">Add New </PrimaryButton>
 
 ## SHOW LOADING INDICATOR
-    - Search 
-
+        https://inertiajs.com/manual-visits
+    -  add the property isLoading
+    - add two property inside the  fetchItems() and return isLoading
+    - open the index.vue file. add isLoading in filters
+    - add is isLoading into card component
+        .inside card componennt
+                  defineProps({
+                isLoading:{
+                    type: Boolean,
+                    default:false
+        }
+    })
+    - Copy the code frm https://tailwind-elements.com/docs/standard/components/progress/
+    - https://tailwindcss.com/docs/animation
+        . open tailwind.config.js add animattion and keyframe
+        .In order to use it , we can add in Card component
 
 
 
