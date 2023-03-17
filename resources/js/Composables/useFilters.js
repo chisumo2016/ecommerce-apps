@@ -4,9 +4,8 @@ import {router} from "@inertiajs/vue3";
 export  default  function (params) {
     const { filters : defaultFilters , routeResourceName } = params;
 
-    const filters = ref({
-        name: ""
-    })
+    //const filters = ref({name:""})
+    const filters = ref( defaultFilters)
 
     const isLoading = ref(false);
     const fetchItemsHandler = ref(null);
@@ -25,10 +24,10 @@ export  default  function (params) {
         });
     }
 
-    onMounted( () => {
-        filters.value = defaultFilters;
-        //filters.value = props.filters
-    })
+    // onMounted( () => {
+    //     filters.value = defaultFilters;
+    //     //filters.value = props.filters
+    // })
 
     watch(filters, () => {
 
