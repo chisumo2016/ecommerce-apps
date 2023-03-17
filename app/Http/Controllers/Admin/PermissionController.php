@@ -3,23 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\RolesRequest;
-use App\Http\Resources\RoleResource;
+use App\Http\Requests\Admin\PermissionsRequest;
+use App\Http\Resources\PermissionResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
-class RoleController extends Controller
+class PermissionController extends Controller
 {
-    private  $routeResourceName  = 'roles';
+    private  $routeResourceName  = 'permissions';
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): Response
+    public function index(Request $request ): Response
     {
-        $roles = Role::query()
+        $permissions = Permission::query()
             ->select([
                 'id',
                 'name',
@@ -29,12 +29,12 @@ class RoleController extends Controller
             ->latest()
             ->paginate(10);
 
-        //dd($roles);
+        //dd($permission);
 
-        return Inertia::render('Admin/Roles/Index',[
-            'title' => 'Roles',
-            'items' => RoleResource::collection($roles),
-            ///'roles' => RoleResource::collection($roles),
+        return Inertia::render('Admin/Permissions/Index',[
+            'title' => 'permission',
+            'items' => PermissionResource::collection($permissions),
+            ///'permission' => RoleResource::collection($permission),
 
             'headers' => [
                 [
@@ -60,61 +60,54 @@ class RoleController extends Controller
      */
     public function create()
     {
-       return Inertia::render('Admin/Roles/Create',[
-           'edit' => false,
-           'title' => 'Add  Role'
-       ]);
+        return Inertia::render('Admin/Permissions/Create',[
+            'edit' => false,
+            'title' => 'Add  Permission',
+            'routeResourceName' => $this->routeResourceName
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RolesRequest $request)
+    public function store(PermissionsRequest $request)
     {
+        Permission::create($request->validated());
 
-        Role::create($request->validated());
+        return redirect()->route('permissions.index')->with('message','Permission created successfully');
 
-        return redirect()->route('roles.index')->with('message','Role created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Role $role)
+    public function edit(Permission $permission)
     {
-        return Inertia::render('Admin/Roles/Create',[
+        return Inertia::render('Admin/Permissions/Create',[
             'edit' => true,
-            'title' => 'Edit Role',
-            'item' => new RoleResource($role),
+            'title' => 'Edit Permission',
+            'item' => new PermissionResource($permission),
             'routeResourceName' => $this->routeResourceName
-
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(RolesRequest $request, Role $role)
+    public function update(PermissionsRequest $request, Permission $permission)
     {
-        $role->update($request->validated());
+        $permission->update($request->validated());
 
-        return redirect()->route('roles.index')->with('message','Role updated successfully');
+        return redirect()->route('permissions.index')->with('message','Permission updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy(Permission $permission)
     {
-        $role->delete();
+        $permission->delete();
 
         return back()->with('message','Role deleted successfully');
     }

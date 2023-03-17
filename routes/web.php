@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Permission;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -32,6 +34,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/dashboard' , DashboardController::class)->name('dashboard');
 
     Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class);
 
 });
 
