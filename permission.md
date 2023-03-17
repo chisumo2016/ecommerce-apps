@@ -19,3 +19,13 @@
     - Create  Permission Resource
         php artisan make:resource PermissionResource
     - Copy the Roles Folder , paste rename Permissions
+
+
+## REFACTORING THE FILTERS MODULE TO ITS OWN COMPONENT
+    - Refactoring the filter to it's own components .
+    - Let us create a Filters components inside Role folder
+    - Cut the code from index.vue and paste into Filters.vue
+    - Attach Filters.vue component in inde.vue file
+    - DefineProps in Filters.vue and emit as well
+        CHILD -> PARENTS
+    - REPEAT  THE SAME PROCESS FOR OUR PERMISSION

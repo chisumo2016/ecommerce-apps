@@ -8,22 +8,10 @@
         </template>
 
         <Container>
-            <Card class="mb-4">
-                <template #header>
-                    filters
-                </template>
-                <form class="grid grid-cols-4 gap-8">
-                    <div>
-                        <InputLabel for="name" value="Name" />
+            <!---- Filters--->
+             <Filters v-model="filters"/>
 
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="filters.name"
-                        />
-                    </div>
-                </form>
-            </Card>
+
             <PrimaryButton :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
 
             <Card class="mt-4" :is-loading="isLoading">
@@ -83,6 +71,7 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import useDeleteItems from "@/Composables/useDeleteItems.js";
 import useFilters from "@/Composables/useFilters.js";
+import Filters from "@/Pages/Admin/Permissions/Filters.vue";
 
 
 
