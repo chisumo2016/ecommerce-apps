@@ -199,10 +199,107 @@
     - Add the form inside the card componentt in index.vue
     - define the filters 
     -  define the watch whenever wee type anytthing
-    - Define filter in the backend
+    - Define filter in the backend in index() method
 
+##  REFACTOR TO COMPOSABLES - DELETE AND FILTER
+    - We will be rectoring our code into composables , delete and filter modules
+    -We will start with delete module 
+    - Composables is js file
+        . copy the delete code from index.vue file
+        . paste into useDeleteItems.js  and make sure u return att the end
+    - import  composables/useDeleteItems.js  into index.vue file
+        .const {} = useDeleteItems(); pass the object 
+    - Let do for the Filtters 
+        . copy everything related to the filters from index and paste into useFilters.js
+        . make sure u return
+        . bacause we're using props . should use params
+            const { filters : defaultFilters } = params;
+        . import into index.vue file
+        . const {} = useFilters(); pass the object 
 
+    - We dont to hard coded the "roles" all the times
+        . open useFilter.js and destruct   routeResourceName
+                const { filters : defaultFilters , routeResourceName } = params;
+        . pass the routeResourceName into index.vue file
+                const { filters } = useFilters({
+                    filters : props.filters,
+                    routeResourceName : "roles"
+                });
+        . similary we need to pass into  useDeleteItems
+                const  {
+                        deleteModal,
+                        itemToDelete,
+                        isDeleting,
+                        showDeleteModal,
+                        handleDeleteItem
+                    } = useDeleteItems({
+                    routeResourceName : "roles"
+                    });
 
+    - whenever we're using  roles in useFilters
+            function  fetchItems(){
+        router.get(route('roles.index'), filters.value,{
+            preserveState: true,
+            preserveScroll:true,
+            replace: true,
+        });
+    }
+            router.get(route('roles.${routeResourceName: "roles"}')
+
+    - Add the same functionality in useDeleteItems.js
+        router.delete(route(`${routeResourceName}.destroy`,{ id: itemToDelete.value.id }),{}
+
+    - To pass in the controller ass well RoleController
+        . Make it private  $routeResourceName = "roles";
+        . Call inside the index method.
+        . Define the props index.vue and use it
+
+             routeResourceName:{
+                type: String,
+                required: true
+            }
+            
+    - Make dynamically the role index head 
+        . pass the variable in index method of controller
+                'title' => 'Roles',
+        . Use it in index.vue on head
+             <Head title="Roles" />
+             <Head :title="title" />
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Roles</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{title}}</h2>
+        . In order to function , we need to pass the props 
+    - Make some changes in controller
+            roles' => RoleResource::collection($roles)  TO
+            'items' => RoleResource::collection($roles),
+        .Change the roles to items in props of inndex.vue
+                  roles: {
+                        type: Object,
+                        default: () => ({}),
+                    },
+                      items: {
+                        type: Object,
+                        default: () => ({}),
+                    },
+        . in the table components  in index.vue
+                :items="roles">  TO
+                :items="items">
+        .  
+                 <Td>
+                        <Actions 
+                        :edit-link="route('roles.edit',{ id: item.id})"
+                        @deleteClicked="showDeleteModal(item)"/>
+                </Td>
+                 <Td>
+                        <Actions 
+                        :edit-link="route('roles.edit',{ id: item.id})"
+                        @deleteClicked="showDeleteModal(item)"/>
+                </Td>
+
+                 <PrimaryButton :href="route('roles.create')">Add New </PrimaryButton>
+                 <PrimaryButton :href="route(`${routeResourceName.create}`)">Add New </PrimaryButton>
+
+## SHOW LOADING INDICATOR
+    - Search 
 
 
 

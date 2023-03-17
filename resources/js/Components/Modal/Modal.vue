@@ -35,6 +35,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted, watch } from "vue";
 
+
 const props = defineProps({
     modelValue: { //  allow to use v-model to our components
         type: Boolean,
@@ -69,6 +70,23 @@ watch(
         }
     }
 );
+
+// watch(
+//     () => props.modelValue,
+//     (value) => {
+//         if (window.Modal && modalIdElement.value) { // check if window.Modal exists and if modalIdElement is defined
+//             if (value) {
+//                 window.Modal.getOrCreateInstance(modalIdElement.value).show();
+//             } else {
+//                 window.Modal.getOrCreateInstance(modalIdElement.value).hide();
+//             }
+//         } else {
+//             console.error("Error: window.Modal is not defined or modalIdElement is not defined.");
+//         }
+//     }
+// );
+
+
 
 const emitOpenModalEvent = () => {
     emits("update:modelValue", true);

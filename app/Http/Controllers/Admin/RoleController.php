@@ -13,6 +13,7 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+    private  $routeResourceName  = 'roles';
     /**
      * Display a listing of the resource.
      */
@@ -31,7 +32,9 @@ class RoleController extends Controller
         //dd($roles);
 
         return Inertia::render('Admin/Roles/Index',[
-            'roles' => RoleResource::collection($roles),
+            'title' => 'Roles',
+            'items' => RoleResource::collection($roles),
+            ///'roles' => RoleResource::collection($roles),
 
             'headers' => [
                 [
@@ -47,7 +50,8 @@ class RoleController extends Controller
                     'name'  => 'actions'
                 ],
             ],
-            'filters' => (object) $request->all()
+            'filters' => (object) $request->all(),
+            'routeResourceName' => $this->routeResourceName
         ]);
     }
 
@@ -101,8 +105,6 @@ class RoleController extends Controller
         $role->update($request->validated());
 
         return redirect()->route('roles.index')->with('message','Role updated successfully');
-
-
     }
 
     /**

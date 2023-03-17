@@ -1,10 +1,10 @@
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="title" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Roles</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ title}}</h2>
         </template>
 
         <Container>
@@ -24,11 +24,11 @@
                     </div>
                 </form>
             </Card>
-            <PrimaryButton :href="route('roles.create')">Add New </PrimaryButton>
+            <PrimaryButton :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
 
             <Card class="mt-4">
                 <Table :headers="headers"
-                       :items="roles">
+                       :items="items">
                     <template v-slot="{ item }">
                         <Td>
                             {{ item.name }}
@@ -37,9 +37,9 @@
                             {{ item.created_at_formatted }}
                         </Td>
                         <Td>
-                            <Actions :edit-link="route('roles.edit',{ id: item.id})"
-                                @deleteClicked="showDeleteModal(item)"
-                            />
+                            <Actions
+                                :edit-link="route('roles.edit',{ id: item.id})"
+                                @deleteClicked="showDeleteModal(item)"/>
                         </Td>
                     </template>
 <!--                    <tr-->
@@ -76,18 +76,18 @@ import Td from "@/Components/Table/Td.vue";
 import Actions from "@/Components/Table/Actions.vue";
 
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {onMounted, ref, watch} from "vue";
-import Modal from "@/Components/Modal/Modal.vue";
-import { router } from '@inertiajs/vue3'
-//import { Inertia } from '@inertiajs/vue3'
-import TextInput from '@/Components/TextInput.vue';
 
+import Modal from "@/Components/Modal/Modal.vue";
+
+import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import {Inertia} from "@inertiajs/inertia";
+import useDeleteItems from "@/Composables/useDeleteItems.js";
+import useFilters from "@/Composables/useFilters.js";
+
 
 
 const props = defineProps({
-    roles: {
+    items: {
         type: Object,
         default: () =>({})
     },
@@ -97,69 +97,40 @@ const props = defineProps({
         default: () => []
     },
 
-    items: {
-        type: Object,
-        default: () => ({}),
-    },
-
     filters: {
         type: Object,
         default: () => ({}),
     },
+
+    routeResourceName: {
+        type: String,
+        required: true
+    },
+
+    title:{
+        type: String,
+        required: true
+    }
 })
 
-const deleteModal = ref(false);
-const itemToDelete = ref({});
-const isDeleting = ref(false)
+/**Delete role - returning the object**/
+const  {
+    deleteModal,
+    itemToDelete,
+    isDeleting,
+    showDeleteModal,
+    handleDeleteItem
+} = useDeleteItems({
+    routeResourceName : props.routeResourceName
+    //routeResourceName : "roles"
+});
+
+/**Filters module**/
+const { filters } = useFilters({
+    filters : props.filters,
+    routeResourceName : props.routeResourceName
+    //routeResourceName : "roles"
+});
 
 
-function  showDeleteModal(item){
-    deleteModal.value = true;
-    itemToDelete.value = item
-}
-
-function  handleDeleteItem() {
-    router.delete(route("roles.destroy",{ id: itemToDelete.value.id }),{
-        onBefore: () => {
-            isDeleting.value = true;
-        },
-        onSuccess:()=>{
-            deleteModal.value = false;
-            itemToDelete.value = {};
-        },
-        onFinish: () =>{
-            isDeleting.value = false;
-        }
-    })
-}
-
-const filters = ref({
-    name: ""
-})
-
-const fetchItemsHandler = ref(null);
-
-function  fetchItems(){
-    router.get(route('roles.index'), filters.value,{
-        preserveState: true,
-        preserveScroll:true,
-        replace: true,
-    });
-}
-
-onMounted( () => {
-    filters.value = props.filters
-})
-
-watch(filters, () => {
-
-    clearTimeout(fetchItemsHandler.value);
-
-    fetchItemsHandler.value = setTimeout(() =>{ //debouncer
-        fetchItems();
-    },300)
-
-},{
-    deep:true
-})
 </script>
