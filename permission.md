@@ -156,6 +156,7 @@
                     $this->middleware('log')->only('index');
                     $this->middleware('subscribed')->except('store');
                 }
-    - 
+    - Add the middlware to all controllers 
+    - Refactor the alert Compoonents.
                 
         

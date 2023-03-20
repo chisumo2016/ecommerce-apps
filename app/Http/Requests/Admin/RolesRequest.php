@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 
 class RolesRequest extends FormRequest
 {
@@ -25,7 +26,8 @@ class RolesRequest extends FormRequest
         $model = $this->route('role');
 
         return [
-             'name' => ['required' , 'string', 'max:255', Rule::unique("roles")->ignore($model->id ?? null)]
+             'name' => ['required' , 'string', 'max:255', Rule::unique(Role::class)->ignore($model->id ?? null)]
+             //'name' => ['required' , 'string', 'max:255', Rule::unique("roles")->ignore($model->id ?? null)]
         ];
     }
 }
