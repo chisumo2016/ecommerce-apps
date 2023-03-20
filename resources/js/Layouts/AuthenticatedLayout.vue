@@ -34,15 +34,19 @@ const showingNavigationDropdown = ref(false);
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                <NavLink
+                                        v-show="menu.isVisible"
+                                        v-for="menu in $page.props.menus" :key="menu.label"
+                                        :href="menu.url"
+                                        :active="menu.isActive">
+                                    {{ menu.label }}
                                 </NavLink>
-                                <NavLink :href="route('permissions.index')" :active="route().current('permissions.index')">
-                                    Permissions
-                                </NavLink>
-                                <NavLink :href="route('roles.index')" :active="route().current('roles.index')">
-                                    Roles
-                                </NavLink>
+<!--                                <NavLink :href="route('permissions.index')" :active="route().current('permissions.index')">-->
+<!--                                    Permissions-->
+<!--                                </NavLink>-->
+<!--                                <NavLink :href="route('roles.index')" :active="route().current('roles.index')">-->
+<!--                                    Roles-->
+<!--                                </NavLink>-->
 
                             </div>
                         </div>

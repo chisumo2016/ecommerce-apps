@@ -39,6 +39,27 @@ class HandleInertiaRequests extends Middleware
                 'message' => fn () => $request->session()->get('message')
             ],
 
+            'menus' =>[
+                [
+                    'label' => 'Dashboard' ,
+                    'url'   => route('dashboard'),
+                    'isActive'=> $request->routeIs('dashboard'),
+                    'isVisible'=> true,
+                ],
+                [
+                    'label' => 'Permissions' ,
+                    'url'   => route('permissions.index'),
+                    'isActive'=> $request->routeIs('permissions.*'),
+                    'isVisible'=> $request->user()?->can('view permissions module'),
+                ],
+                [
+                    'label' => 'Roles' ,
+                    'url'   => route('roles.index'),
+                    'isActive'=> $request->routeIs('roles.*'),
+                    'isVisible'=> $request->user()?->can('view roles module'),
+                ],
+            ],
+
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

@@ -53,7 +53,11 @@ class RoleController extends Controller
                 ],
             ],
             'filters' => (object) $request->all(),
-            'routeResourceName' => $this->routeResourceName
+            'routeResourceName' => $this->routeResourceName,
+            'can' => [
+                'create' => $request->user()->can('create role')
+            ]
+
         ]);
     }
 
@@ -74,9 +78,9 @@ class RoleController extends Controller
     public function store(RolesRequest $request)
     {
 
-        Role::create($request->validated());
+        $role = Role::create($request->validated());
 
-        return redirect()->route('roles.index')->with('message','Role created successfully');
+        return redirect()->route('roles.edit',$role)->with('message','Role created successfully');
     }
 
     /**

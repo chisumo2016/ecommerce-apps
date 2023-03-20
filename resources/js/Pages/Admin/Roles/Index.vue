@@ -12,7 +12,9 @@
               <Filters v-model="filters"/>
             <!--  End of Filters -->
 
-            <PrimaryButton :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
+            <PrimaryButton
+                v-if="can.create"
+                :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
 
             <Card class="mt-4" :is-loading="isLoading">
                 <Table :headers="headers"
@@ -27,6 +29,8 @@
                         <Td>
                             <Actions
                                 :edit-link="route('roles.edit',{ id: item.id})"
+                                :show-edit="item.can.edit"
+                                :show-delete="item.can.delete"
                                 @deleteClicked="showDeleteModal(item)"/>
                         </Td>
                     </template>
@@ -99,7 +103,10 @@ const props = defineProps({
     title:{
         type: String,
         required: true
-    }
+    },
+
+
+    can: Object
 })
 
 /**Delete role - returning the object**/
