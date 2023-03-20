@@ -74,7 +74,6 @@ import useFilters from "@/Composables/useFilters.js";
 import Filters from "@/Pages/Admin/Permissions/Filters.vue";
 
 
-
 const props = defineProps({
     items: {
         type: Object,

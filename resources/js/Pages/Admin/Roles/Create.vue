@@ -31,7 +31,15 @@
                     </div>
                 </form>
             </Card>
+
         </Container>
+
+        <Permissions
+            v-if="edit"
+            class="mt-6"
+            :role="item"
+            :permissions="permissions"/>
+<!--        <Permissions class="mt-6" :role="item" :permissions="permissions"/>-->
 
     </AuthenticatedLayout>
 </template>
@@ -39,6 +47,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head , useForm} from '@inertiajs/vue3';
+import {onMounted} from "vue";
 import Container from "@/Components/Container.vue";
 import Card from "@/Components/Card/Card.vue";
 
@@ -46,10 +55,11 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import {onMounted} from "vue";
+import Permissions from "@/Pages/Admin/Roles/Permissions.vue";
 
 
-const props =defineProps({
+
+const props = defineProps({
     edit:{
         type: Boolean,
         default: false
@@ -57,25 +67,29 @@ const props =defineProps({
     title:{
         type: String
     },
-    role:{
+    item:{ //role
         type: Object,
-        default:() => ({})
+        default:() => ({}),
     },
+    permissions:{
+        type: Array
+    }
 })
 
 const form = useForm({
-    name: '',
+    name: props.item.name ?? "",
+    //name: '',
 });
 
 const submit = () => {
-    props.edit ? form.put(route('roles.update', { id: props.role.id })) :
+    props.edit ? form.put(route('roles.update', { id: props.item.id })) :
 
     form.post(route('roles.store'));
 };
 
-onMounted(() =>{
-    if (props.edit){
-        form.name = props.role.name
-    }
-})
+// onMounted(() =>{
+//     if (props.edit){
+//         form.name = props.role.name ?? ""
+//     }
+// })
 </script>

@@ -20,6 +20,7 @@ class PermissionResource extends JsonResource
             'created_at_formatted' => $this->when($this->created_at, function (){
                 return $this->created_at->toDayDateTimeString();
             }),
+
             //'created_at' => $this->created_at
         ];
     }
