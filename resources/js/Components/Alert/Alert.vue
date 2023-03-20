@@ -15,10 +15,14 @@ const props = defineProps({
 })
  const showAlert = ref(false);
 
+//const timeoutHandler = ref(null)
+
 //setTimeout(() => showAlert.value = false,2000)
  onMounted(() =>{
      showAlert.value = true;
-     setTimeout(() =>{
+     //clearTimeout(timeoutHandler.value)
+    // timeoutHandler.value =setTimeout(()
+         setTimeout(() =>{
          showAlert.value = false
      },2000)
  })

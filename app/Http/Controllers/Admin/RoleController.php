@@ -16,6 +16,15 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller
 {
     private  $routeResourceName  = 'roles';
+
+    public  function  __construct()
+    {
+        $this->middleware('can:view roles list')->only('index');
+        $this->middleware('can:create role')->only(['create', 'store']);
+        $this->middleware('can:edit role')->only(['edit', 'update']);
+        $this->middleware('can:delete role')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -81,14 +90,6 @@ class RoleController extends Controller
         $role = Role::create($request->validated());
 
         return redirect()->route('roles.edit',$role)->with('message','Role created successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**

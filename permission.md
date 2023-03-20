@@ -144,5 +144,18 @@
             'inertia' => \App\Http\Middleware\HandleInertiaRequests::class,
     - To use it RouteServiceProvider
              Route::middleware(['web' , 'inertia'])
-        
+
+## REFACTORING ALERT COMPONENT AND ROUTE RESOURCE
+        https://laravel.com/docs/10.x/controllers#controller-middleware
+    -Different way of applying the permissionn in Routes file
+        ->middleware(['can:delete permission]);
+    - Open the RolesController and the constructor
+             public function __construct()
+                {
+                    $this->middleware('auth');
+                    $this->middleware('log')->only('index');
+                    $this->middleware('subscribed')->except('store');
+                }
+    - 
+                
         
