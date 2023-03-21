@@ -46,3 +46,25 @@
     - To stop the scroll up after delete, add into UserDeleteItems.js 
          preserveScroll:true,
         preserveState:true,
+
+## ADDING FILTERS TO USERS LIST 
+    - Add more filters to the users
+    - Open Users/Index.vue , looke for Filter Component
+        . use the inputGroup componnent inside the form and pass the parameter
+    - Add filters for emails and roles  input and select in filtters components
+        . pass roles props as an arrays
+    - Passs in thhe Filters Component at index.vue
+    - add roles as an Array
+    - The roles will be coming from userController from index()
+            'roles' => RoleResource::collection(Role::get(['id', 'name'])), 
+
+       
+
+
+
+
+
+
+
+
+

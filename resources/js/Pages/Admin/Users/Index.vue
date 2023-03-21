@@ -9,7 +9,7 @@
 
         <Container>
             <!---- Filters--->
-             <Filters v-model="filters"/>
+             <Filters v-model="filters" :roles="roles"/>
 
 
             <PrimaryButton v-if="can.create" :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
@@ -82,7 +82,7 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import useDeleteItems from "@/Composables/useDeleteItems.js";
 import useFilters from "@/Composables/useFilters.js";
-import Filters from "@/Pages/Admin/Permissions/Filters.vue";
+import Filters from "@/Pages/Admin/Users/Filters.vue";
 import Button from "@/Components/Button.vue";
 
 
@@ -113,7 +113,7 @@ const props = defineProps({
     },
 
     can: Object,
-    roles: Array,
+    roles: Array, //passed from user controller
 })
 
 /**Delete role - returning the object**/
