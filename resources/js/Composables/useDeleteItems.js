@@ -4,7 +4,7 @@ import {router} from "@inertiajs/vue3";
 export  default function (params) {
     const { routeResourceName } = params;
 
-    
+
     /** define prop**/
     const deleteModal = ref(false);
     const itemToDelete = ref({});
@@ -19,6 +19,8 @@ export  default function (params) {
 
 function  handleDeleteItem() {
     router.delete(route(`${routeResourceName}.destroy`,{ id: itemToDelete.value.id }),{
+        preserveScroll:true,
+        preserveState:true,
         onBefore: () => {
             isDeleting.value = true;
         },

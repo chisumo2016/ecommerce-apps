@@ -10,18 +10,12 @@
         <Container>
             <Card>
                 <form @submit.prevent="submit">
-                    <div>
-                        <InputLabel for="name" value="Name" />
-
-                        <TextInput
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.name"
-                            required
-                            autofocus
-                        />
-
-                        <InputError class="mt-2" :message="form.errors.name" />
+                    <div class="grid grid-cols-4 gap-6">
+                       <InputGroup label="Name" v-model="form.name" :error-message="form.errors.name" required/>
+                       <InputGroup type="email" label="Email" v-model="form.email" :error-message="form.errors.email" required/>
+                       <InputGroup type="password" label="Password" v-model="form.password" :error-message="form.errors.password" :required="edit"/>
+                       <InputGroup type="password" label="Confirm Password" v-model="form.passwordConfirmation" :error-message="form.errors.passwordConfirmation" :required="edit"/>
+                       <SelectGroup label="Role" v-model="form.roleId"  :items="roles" :error-message="form.errors.roleId" required/>
                     </div>
 
                     <div class="mt-4">
@@ -42,11 +36,13 @@ import { Head , useForm} from '@inertiajs/vue3';
 import Container from "@/Components/Container.vue";
 import Card from "@/Components/Card/Card.vue";
 
-import InputLabel from '@/Components/InputLabel.vue';
-import TextInput from '@/Components/TextInput.vue';
-import InputError from '@/Components/InputError.vue';
+// import InputLabel from '@/Components/InputLabel.vue';
+// import TextInput from '@/Components/TextInput.vue';
+// import InputError from '@/Components/InputError.vue';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import {onMounted} from "vue";
+import InputGroup from "@/Components/InputGroup.vue";
+import SelectGroup from "@/Components/SelectGroup.vue";
 
 
 const props =defineProps({
@@ -66,11 +62,19 @@ const props =defineProps({
     routeResourceName:{
         type : String,
         required: true
-    }
+    },
+    roles:{
+        type: Array,
+        required: true
+    },
 })
 
 const form = useForm({
     name: '',
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+    roleId: '',
 });
 
 const submit = () => {
@@ -80,7 +84,10 @@ const submit = () => {
 
 onMounted(() =>{
     if (props.edit){
-        form.name = props.item.name
+        form.name = props.item.name;
+        form.email = props.item.email;
+        form.roleId = props.item.roles[0]?.id;
+
     }
 })
 </script>

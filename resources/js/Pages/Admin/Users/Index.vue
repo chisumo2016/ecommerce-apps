@@ -111,7 +111,9 @@ const props = defineProps({
         type: String,
         required: true
     },
-    can: Object
+
+    can: Object,
+    roles: Array,
 })
 
 /**Delete role - returning the object**/

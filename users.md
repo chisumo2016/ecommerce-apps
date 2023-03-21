@@ -29,3 +29,20 @@
     - Create a directort in js/pages/Users
         . Add the Button compoonent
         . add small in Button component
+
+### USER CRUD - PART 2
+    - In the previous chapter we were able to show the listin of the user .
+    - Open the Create.vue page of Users
+        . add few inputs like email, password
+        .
+    - Create a cast 
+            php artisan make:cast PasswordCast
+            . Open and add the logic 
+    - Create a Select , InputGroup,SelectGroup component and inmpor to create.vue
+    - Open the User model
+             'password'=> PasswordCast::class
+    - Open AppServiceProvider
+        Model::unguard();
+    - To stop the scroll up after delete, add into UserDeleteItems.js 
+         preserveScroll:true,
+        preserveState:true,

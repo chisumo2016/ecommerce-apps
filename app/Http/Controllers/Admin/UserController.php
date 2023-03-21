@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UsersRequest;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -84,7 +85,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Users/Index', [
+        return Inertia::render('Admin/Users/Create', [
             'edit' => false,
             'title' => 'Add User',
             'routeResourceName' => $this->routeResourceName,
@@ -95,13 +96,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UsersRequest $request)
     {
         $user = User::create($request->safe()->only(['name', 'email', 'password']));
 
         $user->assignRole($request->roleId);
 
-        return redirect()->route("admin.{$this->routeResourceName}.index")->with('success', 'User created successfully.');
+        return redirect()->route("{$this->routeResourceName}.index")->with('message', 'User created successfully.');
     }
 
     /**
@@ -123,13 +124,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UsersRequest  $request, User $user)
     {
         $user->update($request->safe()->only(['name', 'email', 'password']));
 
         $user->syncRoles($request->roleId);
 
-        return redirect()->route("admin.{$this->routeResourceName}.index")->with('success', 'User updated successfully.');
+        return redirect()->route("{$this->routeResourceName}.index")->with('message', 'User updated successfully.');
     }
 
     /**
@@ -139,6 +140,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return back()->with('success', 'User deleted successfully.');
+        return back()->with('message', 'User deleted successfully.');
     }
 }
