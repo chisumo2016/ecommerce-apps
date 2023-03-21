@@ -9,7 +9,9 @@
 
         <Container>
             <!---- Filters--->
-             <Filters v-model="filters" :roles="roles"/>
+                <Filters v-model="filters" :categories="rootCategories" />
+<!--             <Filters v-model="filters" :categories="rootCategories"/>-->
+
             <PrimaryButton v-if="can.create" :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
 
             <Card class="mt-4" :is-loading="isLoading">
@@ -20,13 +22,18 @@
                             {{ item.name }}
                         </Td>
                         <Td>
-                            {{ item.email }}
+                            <Button v-if="item.children_count>0"
+                                    :href="route(`${routeResourceName}.index`, {parentId: item.id})"
+                                    small>
+                                {{ item.children_count }}
+                            </Button>
+                            <span v-else>{{ item.children_count }}</span>
                         </Td>
                         <Td>
-                            <Button v-for="role in item.roles" :key="role.id" color="blue" small>
-                                {{ item.name }}
+                            <Button :color="item.active ? 'green' : 'red'"
+                                    small>
+                                {{ item.active ? 'Active' : 'Inactive' }}
                             </Button>
-
                         </Td>
                         <Td>
                             {{ item.created_at_formatted }}
@@ -71,17 +78,13 @@ import Card from "@/Components/Card/Card.vue";
 import Table from "@/Components/Table/Table.vue";
 import Td from "@/Components/Table/Td.vue";
 import Actions from "@/Components/Table/Actions.vue";
-
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-
 import Modal from "@/Components/Modal/Modal.vue";
-
-import TextInput from '@/Components/TextInput.vue';
-import InputLabel from '@/Components/InputLabel.vue';
 import useDeleteItems from "@/Composables/useDeleteItems.js";
 import useFilters from "@/Composables/useFilters.js";
-import Filters from "@/Pages/Admin/Users/Filters.vue";
 import Button from "@/Components/Button.vue";
+import Filters from "@/Pages/Admin/Categories/Filters.vue";
+
 
 
 const props = defineProps({
@@ -111,7 +114,7 @@ const props = defineProps({
     },
 
     can: Object,
-    roles: Array, //passed from user controller
+    rootCategories: Array, //passed from user controller
 })
 
 /**Delete role - returning the object**/

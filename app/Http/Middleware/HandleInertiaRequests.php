@@ -64,6 +64,12 @@ class HandleInertiaRequests extends Middleware
                     'isActive'=> $request->routeIs('users.*'),
                     'isVisible'=> $request->user()?->can('view users module'),
                 ],
+                [
+                    'label' => 'Categories' ,
+                    'url'   => route('categories.index'),
+                    'isActive'=> $request->routeIs('categories.*'),
+                    'isVisible'=> $request->user()?->can('view categories module'),
+                ],
             ],
 
             'ziggy' => function () use ($request) {
