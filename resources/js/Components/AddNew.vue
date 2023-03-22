@@ -23,6 +23,15 @@ import Button from "@/Components/Button.vue";
 import FilterIcon from "@/Components/Icons/Filter.vue";
 import {ref} from "vue";
 
-const showFilters = ref(false)
+
+const  props = defineProps({
+    show:{
+        type:Boolean,
+        default: false
+    }
+});
+
+//const showFilters = ref(false)
+const showFilters = ref(props.show ?? false)
 </script>
 

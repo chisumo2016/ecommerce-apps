@@ -35,5 +35,20 @@
         .add the query fileter for featured and showOnSlider in the index method 
         .Create the computed property inn Filters.vue
         .Add anoothe selectGroup for subCategory
-        .Remove the value when we select Category,watch() method
+        .Remove the value in subCategory input  when we select Category,watch() method
+    TEST OK
+
+## REFACTOR - SHOW FILTERS IF IT HAS A VALUE
+    - I want the filtter to be open if i refresh the page
+    - Open index of Categories
+    - The open the useFilters.js
+        . add a const property isFilled as computted
+        .return at the bottom of tthe useFilters.js
+    - Appy the isFilled in Categories/Index.vue add on Filters module 
+        .Also add in AddNew.vue component    v-show="isFilled"
+    - Open AddNew component and defineProps and use it 
+
+
+        
+        
     

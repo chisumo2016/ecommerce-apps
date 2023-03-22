@@ -1,4 +1,4 @@
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {router} from "@inertiajs/vue3";
 
 export  default  function (params) {
@@ -6,6 +6,11 @@ export  default  function (params) {
 
     //const filters = ref({name:""})
     const filters = ref( defaultFilters)
+
+    const isFilled = computed(() =>{
+        return Object.values(filters.value)
+            .some(v => !["", null, undefined].includes(v))
+    });
 
     const isLoading = ref(false);
     const fetchItemsHandler = ref(null);
@@ -43,7 +48,8 @@ export  default  function (params) {
 
     return{
         filters,
-        isLoading
+        isLoading,
+        isFilled
 
     }
 }
