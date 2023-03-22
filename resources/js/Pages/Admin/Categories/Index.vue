@@ -8,11 +8,16 @@
         </template>
 
         <Container>
-            <!---- Filters--->
-                <Filters v-model="filters" :categories="rootCategories" />
-<!--             <Filters v-model="filters" :categories="rootCategories"/>-->
+            <!--   <Filters v-model="filters" :categories="rootCategories"/>-->
+            <AddNew>
+                <PrimaryButton v-if="can.create" :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
 
-            <PrimaryButton v-if="can.create" :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
+                <template #filters>
+                    <Filters  v-model="filters"
+                              :categories="rootCategories"
+                              class="mt-4"/>
+                </template>
+            </AddNew>
 
             <Card class="mt-4" :is-loading="isLoading">
                 <Table :headers="headers"
@@ -46,11 +51,11 @@
                                 @deleteClicked="showDeleteModal(item)"/>
                         </Td>
                     </template>
-<!--                    <tr-->
-<!--                        v-for="role in roles.data" :key="role.id"-->
-<!--                        class="border-b dark:border-neutral-500">-->
+                    <!--                    <tr-->
+                    <!--                        v-for="role in roles.data" :key="role.id"-->
+                    <!--                        class="border-b dark:border-neutral-500">-->
 
-<!--                    </tr>-->
+                    <!--                    </tr>-->
                 </Table>
             </Card>
         </Container>
@@ -84,6 +89,9 @@ import useDeleteItems from "@/Composables/useDeleteItems.js";
 import useFilters from "@/Composables/useFilters.js";
 import Button from "@/Components/Button.vue";
 import Filters from "@/Pages/Admin/Categories/Filters.vue";
+import FilterIcon from "@/Components/Icons/Filter.vue";
+import {ref} from "vue";
+import AddNew from "@/Components/AddNew.vue";
 
 
 
@@ -136,5 +144,5 @@ const { filters , isLoading} = useFilters({
     //routeResourceName : "roles"
 });
 
-
+const showFilters = ref(false)
 </script>

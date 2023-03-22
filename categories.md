@@ -34,4 +34,21 @@
                 parentId: '',
             });
     - Automatically slug will be generate - Create.vue in kebab
-        
+
+## REFACTOR - HIDE FILTERS BY DEFAULT
+    - Add will the Icon to display the Filters , By default will not be visible
+    - Open Index of Category - Admin/Categories/Index.vue
+        . create a div inside the button
+        . Add button
+        .svag , create a component isnide the Icons folder
+
+    - Call the svga component into index.vue of Categories
+    - add the props to showFiltter = ref(falsee)
+    - Use on the component of FilterIcon
+    - Create a Component AddNew.vue, so we can use the slots
+        . Move the code for filters into AddNew.vue and add component in AddNew.vue
+        . Hide the filtters if  there's no filter present with v-if="$slots.filters" in AddNew.vue
+        .To Testt comment out the Filters in Index.vue
+
+    - NOTE: REPEAT THE ALL PROCESS FOR OTHER PERMISSSION ROLES USERS
+    
