@@ -5,6 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 
 class ProductsRequest extends FormRequest
@@ -47,9 +48,6 @@ class ProductsRequest extends FormRequest
         $data['cost_price'] = $this->costPrice;
         $data['show_on_slider'] = $this->showOnSlider;
 
-        if (!$this->route('product')) {
-            $data['creator_id'] = $this->user()->id;
-        }
 
         return $data;
     }

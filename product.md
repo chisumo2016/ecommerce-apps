@@ -49,6 +49,45 @@
     - Open AddNew component and defineProps and use it 
 
 
+## CREATE  EDIT AND DELETE PRODUCT - PRODUCT CRUD
+    - Open the product controller and pass the categories in create() method
+    - Open the Create.vue file 
+        . replace rootCategories with categories 
+
+    - Insttall edito https://www.tiny.cloud/blog/tinymce-vue-3-support/
+            npm install --save "@tinymce/tinymce-vue@^4"
+            . config the package in EditorGroup.vue
+    - Add the logic in store to create a product
+    - Add more fields in the Create.vue page
+    - Import EditorGroup Component in create.vue
+    - Add the logic to Edit the page in edit() of product controller
+    - TEST-OK but the category not selected .To fix this issue
+        - We can't see the sub categories id in the vue devtool
+        - Go to product resource and pass
+                'category_id' => $this->whenLoaded(
+                'categories',
+                fn () => $this->categories->firstWhere('parent_id', null)?->id,
+            ),
+             'sub_category_id' => $this->whenLoaded(
+                'categories',
+                fn () => $this->categories->firstWhere('parent_id', '!=', null)?->id,
+            ),
+        .load the relationship in product controller in edit method
+            $product->load(['categories:id,parent_id']);
+    - Work on the logic of update() method in product controller
+    - Install this package to clean the user input on html
+            https://github.com/stevebauman/purify
+        . create the Purify cast
+            php artisan make:cast PurifyHtml
+        . add the logic inside the PurifyHttml cast
+        . To use this ,open Product Model and add into cast
+                'description'=>PurifyHtml::class
+    - Work on delete functionality ,
+        . open the ProductController in destroy method and add functionality.
+        .Any related data will be deleted.
+
+    NOTE : Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'getOrCreateInstance')
         
+            
         
     

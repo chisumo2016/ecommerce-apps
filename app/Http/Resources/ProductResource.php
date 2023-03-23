@@ -44,17 +44,6 @@ class ProductResource extends JsonResource
                 'delete' => $request->user()?->can('delete', $this->resource),
             ],
 
-            'images' => $this->whenLoaded(
-                'media',
-                fn () => $this->getMedia()->map(
-                    fn ($media) => [
-                        'id' => $media->id,
-                        'html' => $media->toHtml(),
-                    ]
-                )
-            ),
-            'creator_id' => $this->whenNotNull('creator_id'),
-            'creator' => new UserResource($this->whenLoaded('creator')),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Admin\ProductsRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
@@ -130,13 +131,11 @@ class ProductController extends Controller
 
     public function create()
     {
-        return Inertia::render('Product/Create', [
+        return Inertia::render('Admin/Products/Create', [
             'edit' => false,
             'title' => 'Add Product',
             'routeResourceName' => $this->routeResourceName,
-            'categories' => CategoryResource::collection(
-                Category::root()->with(['children:id,name,parent_id'])->get(['id', 'name'])
-            ),
+            'categories' => CategoryResource::collection(Category::root()->with(['children:id,name,parent_id'])->get(['id', 'name'])),
         ]);
     }
 
@@ -146,14 +145,14 @@ class ProductController extends Controller
 
         $product->categories()->attach($request->categoryIds());
 
-        return redirect()->route("admin.{$this->routeResourceName}.index")->with('success', 'Product created successfully.');
+        return redirect()->route("{$this->routeResourceName}.index")->with('message', 'Product created successfully.');
     }
 
     public function edit(Product $product)
     {
-        $product->load(['categories:id,parent_id', 'media']);
+        $product->load(['categories:id,parent_id']);
 
-        return Inertia::render('Product/Create', [
+        return Inertia::render('Admin/Products/Create', [
             'edit' => true,
             'title' => 'Edit Product',
             'item' => new ProductResource($product),
@@ -169,14 +168,14 @@ class ProductController extends Controller
 
         $product->categories()->sync($request->categoryIds());
 
-        return redirect()->route("admin.{$this->routeResourceName}.index")->with('success', 'Product updated successfully.');
+        return redirect()->route("{$this->routeResourceName}.index")->with('message', 'Product updated successfully.');
     }
 
     public function destroy(Product $product)
     {
         $product->delete();
 
-        return back()->with('success', 'Product deleted successfully.');
+        return back()->with('message', 'Product deleted successfully.');
     }
 
 
