@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Permission;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UploadMediaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -46,6 +47,8 @@ Route::middleware(['auth'])->group(function (){
     Route::resource('users', UserController::class);
     Route::resource('categories', categoryController::class);
     Route::resource('products', ProductController::class);
+
+    Route::post('upload-images', UploadMediaController::class);
 
 });
 

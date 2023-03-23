@@ -10,7 +10,10 @@
         <Container>
             <Card>
                 <form @submit.prevent="submit">
-                    <div class="grid grid-cols-4 gap-6">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="col-span-2">
+                            <ImageUpload :max-files="3"/>
+                        </div>
                        <InputGroup label="Name" v-model="form.name" :error-message="form.errors.name" required/>
                        <InputGroup label="Slug" v-model="form.slug" :error-message="form.errors.slug" required/>
                        <InputGroup label="Cost Price" v-model="form.costPrice" :error-message="form.errors.costPrice" required/>
@@ -63,6 +66,7 @@ import InputGroup from "@/Components/InputGroup.vue";
 import SelectGroup from "@/Components/SelectGroup.vue";
 import CheckboxGroup from "@/Components/CheckboxGroup.vue";
 import EditorGroup from "@/Components/EditorGroup.vue";
+import ImageUpload from "@/Components/ImageUpload.vue";
 
 const props =defineProps({
     edit:{
