@@ -56,4 +56,57 @@
         },
             
                 
-        
+## UPLOADING MULTIPLE IMAGES USING DRAG AND DROP
+    - Objective is to add the images into file system
+    - After uupload the file , please check on the network
+            file: (binary)
+        . We need to change into image instead of file
+        .Open the ImageUpload.vue file and add paraName:"image"
+
+    - We want the image to be associated with product
+            model_type : store the path of the model App\Models\User
+            This is not good , we should use the enforceMorphMap
+        . open the AppServiceProovider
+            /*Image**/
+        Relation::enforceMorphMap([
+            'category'          =>  Category::class,
+            'category_product'  =>  CategoryProduct::class,
+            'product'           =>  Product::class,
+            'user'              =>  User::class
+        ]);
+
+    NOTE: After adding the above code and refresh u will see 
+            403  THIS ACTION IS UNAUTHORIZED.
+        GONE
+    -  Define two property in the ImageUpload.vue and pass ass props and used it ImageUpload Componentt in Create.vue
+            modelType
+            modelId
+        . Open the Create.vue
+             <ImageUpload :max-files="3" :model-type="product" :model-id="item.id"/>
+                :model-type="product"  : product -> AppServiceProvider
+                ::model-id="item.id"    : item.id -> <div v-if="edit" class="col-span-2">
+    - Open the UploadImageController
+        . add logic
+        .test on tinker
+                 Illuminate\Database\Eloquent\Relations\Relation::morphMap()
+        . Use the Relation to setup the validation in invoke method
+    - Let us use the Spatie Library
+            https://spatie.be/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model
+            . Open Product Model
+                use InteractsWithMedia;
+                implements HasMedia
+            https://spatie.be/docs/laravel-medialibrary/v10/basic-usage/associating-files
+            .Open the UploadImageController  add the code to upload the image
+            . Run
+                php artisan storage:link
+    - Open the ProductResource  and add  'media'
+
+    - Open the ProductController
+        . in edit() u cann load the 'media'
+    - Open the Create.vue and loop the media
+                
+            
+
+
+                
+                

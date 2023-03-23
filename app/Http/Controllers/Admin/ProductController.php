@@ -150,7 +150,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $product->load(['categories:id,parent_id']);
+        $product->load(['categories:id,parent_id' , 'media']);
 
         return Inertia::render('Admin/Products/Create', [
             'edit' => true,

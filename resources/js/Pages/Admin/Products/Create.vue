@@ -11,8 +11,27 @@
             <Card>
                 <form @submit.prevent="submit">
                     <div class="grid grid-cols-2 gap-6">
-                        <div class="col-span-2">
-                            <ImageUpload :max-files="3"/>
+                        <div v-if="edit" class="col-span-2">
+                            <!-- Looping Media  -->
+                            <div v-if="item.images.length > 0">
+                                <div>Images:</div>
+                                <div class="grid grid-cols-3 gap-6">
+                                    <div v-for="image in item.images"
+                                         :key="image.id"
+                                         class="bg-gray-50 p-4 rounded-md relative">
+                                        <div v-html="image.html"
+                                             class="[&_img]:h-64 [&_img]:w-full [&_img]:object-contain"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ImageUpload
+                                v-if="item.images.length < 3"
+                                :maxFiles="3 - item.images.length"
+                                :model-id="item.id"
+                                model-type="product"
+                                />
+
                         </div>
                        <InputGroup label="Name" v-model="form.name" :error-message="form.errors.name" required/>
                        <InputGroup label="Slug" v-model="form.slug" :error-message="form.errors.slug" required/>

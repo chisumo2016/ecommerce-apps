@@ -40,10 +40,20 @@ class ProductResource extends JsonResource
             ),
 
             'can' => [
-                'edit' => $request->user()?->can('update', $this->resource),
+                'edit' => $request->user()?->can('update',   $this->resource),
                 'delete' => $request->user()?->can('delete', $this->resource),
             ],
 
+            'images' => $this->whenLoaded(
+      'media',
+                 fn() => $this->media->map(
+                     fn($media) => [
+                         'id'   => $media->id,
+                         'html' =>$media->toHtml(),
+                     ]
+                 )
+
+            )
         ];
     }
 }

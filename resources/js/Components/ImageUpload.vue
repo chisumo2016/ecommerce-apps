@@ -1,8 +1,8 @@
 <template>
     <div class="dropzone" id="image-upload">
         <div class="dz-message" data-dz-message>
-            <div>Drop images here to upload </div>
-            <div>You can only upload 3 images</div>
+            <div>Drop image<span v-if="maxFiles>1">s</span> here to upload</div>
+            <div v-if="maxFiles>=1">You can only upload {{ maxFiles }} image<span v-if="maxFiles>1">s</span></div>
         </div>
     </div>
 </template>
@@ -22,8 +22,18 @@ const props = defineProps({
     /*control the quantity of the file*/
     maxFiles:{
         type: Number,
-        default: 5
-    }
+        default: 1 //mb
+    },
+
+    modelType:{
+        type:String,
+        required:true
+    },
+    modelId:{
+        type:Number,
+        required: true
+    },
+
 })
 
 onMounted(() =>{
@@ -31,16 +41,24 @@ onMounted(() =>{
         /**pass configuration*/
         url: "/upload-images",
         headers:{
-            "X-CSRF-TOKEN" : document.querySelector("meta[name='csrf-token']")?.content,
+            "X-CSRF-TOKEN": document.querySelector("meta[name='csrf-token']")?.content,
         },
 
-        maxFilesize: props.maxFilesize,
-        maxFiles   : props.maxFiles,
+        paramName: "image",
+        maxFilesize:  props.maxFilesize,
+        maxFiles    : props.maxFiles,
 
-        acceptedFiles: '.jpg,.jpeg,.png',
-        addRemoveLinks:true
+        acceptedFiles: ".jpeg,.jpg,.png",
+        addRemoveLinks: true,
 
     });
-})
+
+    /**Sending **/
+
+    dropzone.on("sending", (file, xhr , fd) =>{
+        fd.append("modelType", props.modelType); //modelType passing these as props to
+        fd.append("modelId", props.modelId);
+    });
+});
 
 </script>
