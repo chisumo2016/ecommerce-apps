@@ -46,7 +46,7 @@ class ProductResource extends JsonResource
 
             'images' => $this->whenLoaded(
       'media',
-                 fn() => $this->media->map(
+                 fn() => $this->getMedia()->map(  //getMedia() will return all the media from default collection OR media relationship
                      fn($media) => [
                          'id'   => $media->id,
                          'html' =>$media->toHtml(),

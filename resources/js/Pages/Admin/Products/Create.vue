@@ -19,6 +19,12 @@
                                     <div v-for="image in item.images"
                                          :key="image.id"
                                          class="bg-gray-50 p-4 rounded-md relative">
+                                        <Button type="button"
+                                            class="absolute right-4 top-4 rounded-full p-2 transition-colors duration-200 hover:bg-red-500 hover:text-white"
+                                                @click.prevent="deleteImage(image.id)">
+                                            <CrossIcon class="w-6 h-6" />
+                                        </Button>
+
                                         <div v-html="image.html"
                                              class="[&_img]:h-64 [&_img]:w-full [&_img]:object-contain"></div>
                                     </div>
@@ -26,7 +32,7 @@
                             </div>
 
                             <ImageUpload
-                                v-if="item.images.length < 3"
+                                v-if="item.images.length < MaxUploadImageCount"
                                 :maxFiles="3 - item.images.length"
                                 :model-id="item.id"
                                 model-type="product"
@@ -69,7 +75,7 @@
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head , useForm} from '@inertiajs/vue3';
+import {Head, router, useForm} from '@inertiajs/vue3';
 import Container from "@/Components/Container.vue";
 import Card from "@/Components/Card/Card.vue";
 
@@ -86,6 +92,9 @@ import SelectGroup from "@/Components/SelectGroup.vue";
 import CheckboxGroup from "@/Components/CheckboxGroup.vue";
 import EditorGroup from "@/Components/EditorGroup.vue";
 import ImageUpload from "@/Components/ImageUpload.vue";
+import CrossIcon from "@/Components/Icons/Cross.vue";
+import Button from "@/Components/Button.vue";
+import {Inertia} from "@inertiajs/inertia";
 
 const props =defineProps({
     edit:{
@@ -156,11 +165,19 @@ watch(
     }
 );
 
+const MaxUploadImageCount = 3;
+
 watch(
     () => form.categoryId,
     () => {
         form.subCategoryId = "";
     }
 );
+
+const  deleteImage = (imageId) =>{
+    if (!confirm("Are you sure you want to delete this image ?")) return ;
+
+    Inertia.post(route("images.destroy" ,{id : imageId}));
+}
 
 </script>

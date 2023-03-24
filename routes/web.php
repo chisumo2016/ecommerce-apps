@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AttachPermissionToRoleController;
 use App\Http\Controllers\Admin\categoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DeleteMediaController;
 use App\Http\Controllers\Admin\DetachPermissionFromRoleController;
 use App\Http\Controllers\Admin\Permission;
 use App\Http\Controllers\Admin\PermissionController;
@@ -48,7 +49,8 @@ Route::middleware(['auth'])->group(function (){
     Route::resource('categories', categoryController::class);
     Route::resource('products', ProductController::class);
 
-    Route::post('upload-images', UploadMediaController::class);
+    Route::post('upload-images', UploadMediaController::class)->name('images.store');
+    Route::post('delete-image',  DeleteMediaController::class)->name('images.destroy');
 
 });
 

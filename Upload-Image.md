@@ -105,7 +105,46 @@
         . in edit() u cann load the 'media'
     - Open the Create.vue and loop the media
                 
-            
+### DELETE PRODUCT IMAGE 
+    - objective is to delete the images , add the icon , once you click on icon will show the pops
+    - Pops window will show the message , should remove in filesystem
+    - Searcch Icon - HeroIcon
+        . create a components called Cross.vue paste SVGA
+        . Open the Create.vue add Cross component
+            .add thee functionality to delete the imagess
+    - Open the web route add url ad the delete-images
+    - Create a Controller
+            php artisan make:controller Admin/DeleteMediaController
+        . Add the functionality inside the method to delete the images
+    - create a const variable MaxUploadImageCount inside Create.vue and user in ImageUpload component
+                v-if="item.images.length < 3" TO  v-if="item.images.length < MaxUploadImageCount" 
+                :maxFiles="3 - item.images.length" TO  :maxFiles="MaxUploadImageCount - item.images.length"
+    - We need to refactor our code 
+            https://spatie.be/docs/laravel-medialibrary/v10/basic-usage/retrieving-media
+            .Open the ProductResouurce file
+                        'images' => $this->whenLoaded(
+                            'media',
+                         fn() => $this->media->map(
+                             fn($media) => [
+                                 'id'   => $media->id,
+                                 'html' =>$media->toHtml(),
+                             ]
+                         )
+        
+                    )
+                    'images' => $this->whenLoaded(
+                            'media',
+                         fn() => $this->getMedia()->map(
+                             fn($media) => [
+                                 'id'   => $media->id,
+                                 'html' =>$media->toHtml(),
+                             ]
+                         )
+        
+                    )
+            - Also open the resources/js/Components/ImageUpload.vue , We have hard coded the url:
+                    url: "/upload-images",
+                    url: "/upload-images",
 
 
                 
