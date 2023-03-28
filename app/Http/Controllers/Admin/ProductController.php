@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         $this->middleware('can:view products list')->only('index');
         $this->middleware('can:create product')->only(['create', 'store']);
-        $this->middleware('can:update,product')->only(['edit', 'update']);
+        $this->middleware('can:update, product')->only(['edit', 'update']);
         $this->middleware('can:delete,product')->only('destroy');
     }
 
@@ -39,9 +39,9 @@ class ProductController extends Controller
                 'show_on_slider',
                 'featured',
                 'active',
-                //'creator_id',
+                'creator_id',
             ])
-            //->with(['creator:id,name'])
+            ->with(['creator:id,name'])
 
             ->when($request->name, fn (Builder $builder, $name) => $builder->where('name', 'like', "%{$name}%"))
             ->when(
@@ -109,10 +109,10 @@ class ProductController extends Controller
                     'label' => 'Created Date',
                     'name' => 'created_at',
                 ],
-//                [
-//                    'label' => 'Created By',
-//                    'name' => 'creator_id',
-//                ],
+                [
+                    'label' => 'Created By',
+                    'name' => 'creator_id',
+                ],
                 [
                     'label' => 'Actions',
                     'name' => 'actions',

@@ -48,6 +48,9 @@
                             {{ item.created_at_formatted }}
                         </Td>
                         <Td>
+                            {{ item.creator.name }}
+                        </Td>
+                        <Td>
                             <Actions
                                 :edit-link="route(`${routeResourceName}.edit`,{ id: item.id})"
                                 :show-edit="item.can.edit"

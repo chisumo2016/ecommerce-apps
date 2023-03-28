@@ -30,7 +30,7 @@ class ProductFactory extends Factory
             'show_on_slider' => $this->faker->boolean(),
             'active' => $this->faker->boolean(70),
 
-            //'creator_id' => User::factory(),
+            'creator_id' => User::factory(),
         ];
     }
 }

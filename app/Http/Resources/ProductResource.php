@@ -40,8 +40,8 @@ class ProductResource extends JsonResource
             ),
 
             'can' => [
-                'edit' => $request->user()?->can('update',   $this->resource),
-                'delete' => $request->user()?->can('delete', $this->resource),
+                'edit' => $request->user()?->can('update', $this->resource), //edit product & $this is model
+                'delete' => $request->user()?->can('delete', $this->resource), //delete product
             ],
 
             'images' => $this->whenLoaded(
@@ -53,7 +53,9 @@ class ProductResource extends JsonResource
                      ]
                  )
 
-            )
+            ),
+            'creator_id' => $this->whenNotNull($this->creator_id),
+            'creator' => new UserResource($this->whenLoaded('creator'))
         ];
     }
 }
