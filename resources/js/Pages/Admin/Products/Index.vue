@@ -9,7 +9,7 @@
 
         <Container>
             <!--   <Filters v-model="filters" :categories="rootCategories"/>-->
-            <AddNew>
+            <AddNew :show="isFilled">
                 <PrimaryButton v-if="can.create" :href="route(`${routeResourceName}.create`)">Add New </PrimaryButton>
 
                 <template #filters>
@@ -143,7 +143,7 @@ const  {
 });
 
 /**Filters module**/
-const { filters , isLoading} = useFilters({
+const { filters , isLoading, isFilled} = useFilters({
     filters : props.filters,
     routeResourceName : props.routeResourceName
     //routeResourceName : "roles"
